@@ -10,30 +10,30 @@
 
 package co.touchlab.kmmworker
 
-expect class Worker(){
-    fun <T> runBackground(backJob:()->T):Future<T>
+expect class Worker() {
+    fun <T> runBackground(backJob: () -> T): Future<T>
     fun requestTermination()
 }
 
-expect class Future<T>{
-    fun consume():T
+expect class Future<T> {
+    fun consume(): T
 }
 
-internal expect val mainThread: Boolean
+expect val mainThread: Boolean
 
-internal fun assertMainThread() {
+fun assertMainThread() {
     if (!mainThread)
         throw IllegalStateException("Must be on main thread")
 }
 
-internal fun assertNotMainThread() {
+fun assertNotMainThread() {
     if (mainThread)
         throw IllegalStateException("Must not be on main thread")
 }
 
 sealed class JobResult<B>
-data class Success<B>(val result: B):JobResult<B>()
-data class Error(val thrown:Throwable):JobResult<Any>()
+data class Success<B>(val result: B) : JobResult<B>()
+data class Error(val thrown: Throwable) : JobResult<Any>()
 
 expect fun <B> Worker.backgroundTask(backJob: () -> B, mainJob: (JobResult<B>) -> Unit)
 

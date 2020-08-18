@@ -37,40 +37,12 @@ jobs:
         tasks: 'publishToMavenLocal'
         publishJUnitResults: false
         sonarQubeRunAnalysis: false
-    - task: Cache@2
-      displayName: 'Check for Sample gradle cache'
-      inputs:
-        key: 'sampleGradle | "$(Agent.OS)" | KermitSample/**/build.gradle.kts'
-        path: 'KermitSample/.gradle'
-        restoreKeys: |
-          sampleGradle | "$(Agent.OS)"
-          sampleGradle
-    - task: Gradle@2
-      displayName: 'Build Sample'
-      inputs:
-        gradleWrapperFile: 'KermitSample/gradlew'
-        workingDirectory: 'KermitSample'
-        options: '--build-cache'
-        tasks: 'build'
-        publishJUnitResults: true
-        testResultsFiles: '**/TEST-*.xml'
-        javaHomeOption: 'JDKVersion'
-        sonarQubeRunAnalysis: false
-    - task: Xcode@5
-      inputs:
-        actions: 'build'
-        configuration: 'Debug'
-        sdk: 'iphoneos13.4'
-        xcWorkspacePath: 'KermitSample/KermitSampleIOS/KermitSampleIOS.xcworkspace'
-        scheme: 'KermitSampleIOS'
-        packageApp: false
-        publishJUnitResults: false
     - task: Gradle@2
       displayName: 'Stop gradle to ensure clean caching'
       inputs:
         gradleWrapperFile: 'gradlew'
         options: '--stop'
-        tasks: 'build' 
+        tasks: 'build'
         publishJUnitResults: false
         javaHomeOption: 'JDKVersion'
         sonarQubeRunAnalysis: false

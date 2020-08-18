@@ -38,7 +38,7 @@ actual class Future<T>(private val future: kotlin.native.concurrent.Future<T>) {
     actual fun consume():T = future.result
 }
 
-internal actual val mainThread: Boolean
+actual val mainThread: Boolean
     get() = NSThread.isMainThread
 
 actual fun <B> Worker.backgroundTask(backJob: () -> B, mainJob: (JobResult<B>) -> Unit) {
