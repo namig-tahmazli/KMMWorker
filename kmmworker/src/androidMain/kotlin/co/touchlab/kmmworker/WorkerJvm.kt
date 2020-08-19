@@ -34,7 +34,7 @@ actual class Future<T>(private val future: java.util.concurrent.Future<T>) {
 actual val mainThread: Boolean
     get() = Looper.getMainLooper() === Looper.myLooper()
 
-actual fun <B> Worker.backgroundTask(
+actual fun <B:Any> Worker.backgroundTask(
     backJob: () -> B,
     mainJob: (JobResult<B>) -> Unit
 ) {

@@ -41,7 +41,7 @@ actual class Future<T>(private val future: kotlin.native.concurrent.Future<T>) {
 actual val mainThread: Boolean
     get() = NSThread.isMainThread
 
-actual fun <B> Worker.backgroundTask(backJob: () -> B, mainJob: (JobResult<B>) -> Unit) {
+actual fun <B:Any> Worker.backgroundTask(backJob: () -> B, mainJob: (JobResult<B>) -> Unit) {
     val ref = StableRef.create(mainJob).freeze()
     runBackground {
         val result = try {

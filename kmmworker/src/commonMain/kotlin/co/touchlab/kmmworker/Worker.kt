@@ -31,9 +31,9 @@ fun assertNotMainThread() {
         throw IllegalStateException("Must not be on main thread")
 }
 
-sealed class JobResult<B>
-data class Success<B>(val result: B) : JobResult<B>()
-data class Error(val thrown: Throwable) : JobResult<Any>()
+sealed class JobResult<out B:Any>
+data class Success<out B:Any>(val result: B) : JobResult<B>()
+data class Error(val thrown: Throwable) : JobResult<Nothing>()
 
-expect fun <B> Worker.backgroundTask(backJob: () -> B, mainJob: (JobResult<B>) -> Unit)
+expect fun <B:Any> Worker.backgroundTask(backJob: () -> B, mainJob: (JobResult<B>) -> Unit)
 
